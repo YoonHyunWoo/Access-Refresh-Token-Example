@@ -1,5 +1,6 @@
 
-module.exports = (type, bodyid, bodypwd = 0) => {
+const jwt = require('jsonwebtoken')
+module.exports = (type, bodyid=' ', bodypwd = ' ') => {
    if(type ==  'AccessKey'){
     var AccessToken = jwt.sign({    // Create Access Token
         id : bodyid,
@@ -9,7 +10,7 @@ module.exports = (type, bodyid, bodypwd = 0) => {
         issuer : "YoonHyunWoo"
     })    
     return AccessToken 
-    }else{
+    }else if(type=='RefreshKey'){
         var RefreshToken = jwt.sign({   // Create Refresh Token
         },process.env.SECRET_KEY,{
             expiresIn : '14d',
