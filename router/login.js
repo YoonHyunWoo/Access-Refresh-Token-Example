@@ -18,7 +18,6 @@ router.get('/', (req,res)=>{
             "RefreshToken": access[1]
         })
     }else{
-        //토큰이 하나만 있다면 취할 동작
         
     }
    
