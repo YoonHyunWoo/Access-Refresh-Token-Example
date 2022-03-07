@@ -2,12 +2,13 @@ const app = require('express')()
 const router = require('express').Router()
 const verifyToken = require('../token/verifyToken')
 const headCookieParser = require('../middleware/headCookieParser')
+const OneCookieParser = require('../middleware/OneCookieParser')
 
 router.get('/', (req,res)=>{
+    var ck = req.headers.cookie
     if(req.headers.cookie == undefined){
         res.sendFile('/workspace/Access-Refresh-Token-Example/web/login.html'); // 토큰이 둘 다 없을 때는 로그인 페이지로 리다이렉트
     }else{
-    var ck = req.headers.cookie
     if(ck.includes(';')){
         var cookies = headCookieParser(req.headers.cookie)
         console.log(cookies)
@@ -17,11 +18,15 @@ router.get('/', (req,res)=>{
             "name": access[0].name,
             "RefreshToken": access[1]
         })
-    }else{
-        //토큰이 하나만 있다면 취할 동작
-        
+    }else{ //토큰이 하나만 있다면 취할 동작
+        var cookies = OneCookieParser(ck)
+        var WhatToken = verifyToken(cookies)
+        if(WhatToken[0].name == undefined && WhatToken[0].iss == 'YoonHyunWoo'){// Refresh Token만 있는 경우
+            
+        }else{ // Access Token만 있는 경우
+            
+        } 
     }
-   
     }
 
 })
