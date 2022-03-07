@@ -1,4 +1,4 @@
 module.exports = (cookieInput) => {
-    return cookieInput.split('=')[1]
+    return cookieInput[0].split('=')[1]
 }
 
