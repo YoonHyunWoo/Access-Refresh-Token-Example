@@ -1,11 +1,11 @@
 const app = require('express')()
 const router = require('express').Router()
-const verifyToken = require('../token/verifyToken')
-const headCookieParser = require('../middleware/headCookieParser')
-const OneCookieParser = require('../middleware/OneCookieParser')
-const CreateToken = require('../middleware/CreateToken')
+const verifyToken = require('../modules/verifyToken')
+const headCookieParser = require('../modules/headCookieParser')
+const OneCookieParser = require('../modules/OneCookieParser')
+const CreateToken = require('../modules/CreateToken')
 
-const removeToken = require('../token/removeToken')
+const removeToken = require('../modules/removeToken')
 
 
 router.get('/',(req,res)=>{
@@ -41,5 +41,9 @@ router.get('/',(req,res)=>{
 
 
 
-router.use('/', removeToken)
+router.post('/',(req,res)=>{
+    res.clearCookie('access');
+    res.clearCookie('refresh');
+    res.redirect('http://localhost:3000/')
+})
 module.exports = router
