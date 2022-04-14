@@ -14,22 +14,18 @@ router.get('/', (req,res)=>{
         var cookies = headCookieParser(req.headers.cookie)
         console.log(cookies)
         var access = verifyToken(cookies[0], cookies[1]); //토큰이 둘 다 있다면 로그인 ( 본 예제에서는 id, name, refreshToken을 반환함 )
-        res.send({
-            "id": access[0].id,
-            "name": access[0].name,
-            "RefreshToken": access[1]
-        })
+        res.redirect('/logout')
     }else{ //토큰이 하나만 있다면 취할 동작
         var cookies = OneCookieParser(ck)
         var WhatToken = verifyToken(cookies)
         if(WhatToken[0].name == undefined && WhatToken[0].iss == 'YoonHyunWoo'){// Refresh Token만 있는 경우
             var AccessToken = CreateToken('AccessKey', 'awda','awdad');
             res.cookie('access',AccessToken,{maxAge:3600000, httpOnly:true})
-            res.redirect('http://localhost:3000/')
+            res.redirect('http://localhost:3000/logout')
         }else{ // Access Token만 있는 경우
             var RefreshToken = CreateToken('RefreshKey');
             res.cookie('RefreshToken',RefreshToken,{maxAge:3600000, httpOnly:true})
-            res.redirect('http://localhost:3000/')
+            res.redirect('http://localhost:3000/logout')
         } 
     }
     }
